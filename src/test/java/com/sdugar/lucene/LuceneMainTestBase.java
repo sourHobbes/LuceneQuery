@@ -23,7 +23,8 @@ public class LuceneMainTestBase {
     public static final Logger LOG = LoggerFactory.getLogger( LuceneMainTestBase.class );
 
     @BeforeClass
-    public void setup() {
+    public void setup() throws IOException {
+        createIndex();
         LOG.info("setup completed");
     }
 
@@ -35,8 +36,6 @@ public class LuceneMainTestBase {
 
     @Test
     public void queriesTest() throws IOException, ParseException, URISyntaxException {
-        createIndex();
-
         searchIndexWithPhraseQuery("french", "fries", 0);
         searchIndexWithPhraseQuery("hamburger", "steak", 0);
         searchIndexWithPhraseQuery("hamburger", "steak", 1);
@@ -49,4 +48,8 @@ public class LuceneMainTestBase {
         searchIndexWithQueryParser("\"hamburger steak\"~2"); // PhaseQuery
     }
 
+    @Test
+    public void localeFileQueries() throws IOException, ParseException, URISyntaxException {
+
+    }
 }
