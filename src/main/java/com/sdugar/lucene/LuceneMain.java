@@ -89,14 +89,14 @@ public class LuceneMain {
         try (InputStream stream = Files.newInputStream( file )) {
             Document doc = new Document();
             doc.add( new StringField( FIELD_PATH, file.toString(), Field.Store.YES ) );
-            FieldType myFieldType = new FieldType();
-            myFieldType.setStoreTermVectors( true );
-            myFieldType.setTokenized( true );
-            myFieldType.setStored( false );
-            myFieldType.setIndexOptions( IndexOptions.DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS );
-            myFieldType.freeze();
+            FieldType contentsFieldType = new FieldType();
+            contentsFieldType.setStoreTermVectors( true );
+            contentsFieldType.setTokenized( true );
+            contentsFieldType.setStored( false );
+            contentsFieldType.setIndexOptions( IndexOptions.DOCS_AND_FREQS_AND_POSITIONS );
+            contentsFieldType.freeze();
             //Field contentsField = new TextField("contents", new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8)));//, myFieldType);
-            Field contentsField = new Field( "contents", new BufferedReader( new InputStreamReader( stream, StandardCharsets.UTF_8 ) ), myFieldType );
+            Field contentsField = new Field( "contents", new BufferedReader( new InputStreamReader( stream, StandardCharsets.UTF_8 ) ), contentsFieldType );
             doc.add( contentsField );
             if ( writer.getConfig().getOpenMode() == IndexWriterConfig.OpenMode.CREATE ) {
                 LOG.info( "adding " + file );
